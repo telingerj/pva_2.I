@@ -52,8 +52,7 @@ class Obdelnik(Tvar2d):
 
 
     def je_podobny(self, tvar2):
-        #TODO
-        pass
+        return self.a / self.b == tvar2.a / tvar2.b
 
 
 class Kruh(Tvar2d):
@@ -68,6 +67,10 @@ class Kruh(Tvar2d):
 
     def obsah(self):
         return 3.14 * (self.r ** 2)
+
+
+    def je_podobny(self, tvar2):
+        return True
 
 
 class Trojuhelnik(Tvar2d):
@@ -95,8 +98,10 @@ class Trojuhelnik(Tvar2d):
 
 
     def je_podobny(self, tvar2):
-        #TODO
-        pass
+        return self.a / self.b == tvar2.a / tvar2.b and \
+            self.a / self.c == tvar2.a / tvar2.c and \
+            self.b / self.c == tvar2.b / tvar2.c
+
 
 class RovnostrannyTrojuhelnik(Trojuhelnik):
     def __init__(self, jmeno, a):
@@ -112,6 +117,9 @@ class RovnostrannyTrojuhelnik(Trojuhelnik):
         return (self.a * v) / 2
 
 
+    def je_podobny(self, tvar2):
+        return True
+
 
 
 c1 = Ctverec("čtvereček1", 5)
@@ -123,7 +131,6 @@ o2 = Obdelnik("obdélníček2", 4, 5)
 k1 = Kruh("kolečko", 5)
 
 t1 = Trojuhelnik("trolhůhelníček1", 2, 2, 3)
+t2 = Trojuhelnik("trolhůhelníček1", 4, 4, 6)
 
-print(t1.ma_vetsi_obsah(o1))
-print(t1.obsah())
-print(t1.obvod())
+print(t1.je_podobny(t2))
