@@ -71,19 +71,36 @@ class Sermir(Bojovnik):
         self.zdravi -= zdravi
 
 
+class Kouzelnik(Postava):
+    def __init__(self, jmeno, zdravi, rychlost, sila_magie, ucinnost_lecby):
+        super().__init__(jmeno, zdravi, rychlost)
+        self.sila_magie = sila_magie
+        self.ucinnost_lecby = ucinnost_lecby
+
+
+    def lecba(self, postava):
+        if random.randint(1, 100) > self.ucinnost_lecby:
+            return
+        postava.zdravi += self.sila_magie
+
+
 
 armada1 = Armada("hodni", "modra")
 armada2 = Armada("zli", "cervena")
 
 l1 = Lukostrelec("Pepa", 100, 200, 10, 10, 100)
 l2 = Lukostrelec("Franta", 80, 250, 15, 10, 100)
+k1 = Kouzelnik("Gandalf", 70, 150, 10, 90)
 
 s1 = Sermir("Milan", 100, 200, 10, 50)
 
 armada1.pridej_postavu(l1)
 armada2.pridej_postavu(l2)
 armada1.pridej_postavu(s1)
+armada2.pridej_postavu(k1)
 
-print(s1.zdravi)
-l1.utok(s1)
-print(s1.zdravi)
+print(l2.zdravi)
+l1.utok(l2)
+print(l2.zdravi)
+k1.lecba(l2)
+print(l2.zdravi)
