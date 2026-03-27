@@ -1,6 +1,8 @@
 #  hra, ve které proti sobě bojují dvě armády
+import pygame
 import random
 
+pygame.init()
 
 class Armada:
     def __init__(self, jmeno, barva):
@@ -15,11 +17,14 @@ class Armada:
 
 
 class Postava:
-    def __init__(self, jmeno, zdravi, rychlost):
+    def __init__(self, jmeno, zdravi, pozice, textura_prava, textura_leva, rychlost):
         self.jmeno = jmeno
         self.zdravi = zdravi
         self.rychlost = rychlost
         self.armada = None
+        self.pozice = pozice
+        self.textura_prava = textura_prava
+        self.textura_leva = textura_leva
 
 
     def pridej_armadu(self, armada):
@@ -31,8 +36,8 @@ class Postava:
 
 
 class Bojovnik(Postava):
-    def __init__(self, jmeno, zdravi, rychlost, poskozeni):
-        super().__init__(jmeno, zdravi, rychlost)
+    def __init__(self, jmeno, zdravi, pozice, textura_prava, textura_leva, rychlost, poskozeni):
+        super().__init__(jmeno, zdravi, pozice, textura_prava, textura_leva, rychlost)
         self.poskozeni = poskozeni
 
 
@@ -41,8 +46,8 @@ class Bojovnik(Postava):
 
 
 class Lukostrelec(Bojovnik):
-    def __init__(self, jmeno, zdravi, rychlost, poskozeni, pocet_sipu, presnost):
-        super().__init__(jmeno, zdravi, rychlost, poskozeni)
+    def __init__(self, jmeno, zdravi, pozice, textura_prava, textura_leva, rychlost, poskozeni, pocet_sipu, presnost):
+        super().__init__(jmeno, zdravi, pozice, textura_prava, textura_leva, rychlost, poskozeni)
         self.pocet_sipu = pocet_sipu
         self.presnost = presnost
 
@@ -56,8 +61,8 @@ class Lukostrelec(Bojovnik):
 
 
 class Sermir(Bojovnik):
-    def __init__(self, jmeno, zdravi, rychlost, poskozeni, ucinnost_stitu):
-        super().__init__(jmeno, zdravi, rychlost, poskozeni)
+    def __init__(self, jmeno, zdravi, pozice, textura_prava, textura_leva, rychlost, poskozeni, ucinnost_stitu):
+        super().__init__(jmeno, zdravi, pozice, textura_prava, textura_leva, rychlost, poskozeni)
         self.ucinnost_stitu = ucinnost_stitu
 
 
@@ -72,8 +77,8 @@ class Sermir(Bojovnik):
 
 
 class Kouzelnik(Postava):
-    def __init__(self, jmeno, zdravi, rychlost, sila_magie, ucinnost_lecby):
-        super().__init__(jmeno, zdravi, rychlost)
+    def __init__(self, jmeno, zdravi, pozice, textura_prava, textura_leva, rychlost, sila_magie, ucinnost_lecby):
+        super().__init__(jmeno, zdravi, pozice, textura_prava, textura_leva, rychlost)
         self.sila_magie = sila_magie
         self.ucinnost_lecby = ucinnost_lecby
 
@@ -84,23 +89,22 @@ class Kouzelnik(Postava):
         postava.zdravi += self.sila_magie
 
 
+class Game:
+    def __init__(self):
+        self.screen = pygame.display.set_mode((800, 800))
+        self.clock = pygame.time.Clock()
+        self.running = True
 
-armada1 = Armada("hodni", "modra")
-armada2 = Armada("zli", "cervena")
+    def loop(self):
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
 
-l1 = Lukostrelec("Pepa", 100, 200, 10, 10, 100)
-l2 = Lukostrelec("Franta", 80, 250, 15, 10, 100)
-k1 = Kouzelnik("Gandalf", 70, 150, 10, 90)
+            self.screen.fill((255, 255, 255))
+            self.clock.tick(60)
+            pygame.display.flip()
 
-s1 = Sermir("Milan", 100, 200, 10, 50)
 
-armada1.pridej_postavu(l1)
-armada2.pridej_postavu(l2)
-armada1.pridej_postavu(s1)
-armada2.pridej_postavu(k1)
-
-print(l2.zdravi)
-l1.utok(l2)
-print(l2.zdravi)
-k1.lecba(l2)
-print(l2.zdravi)
+game = Game()
+game.loop()
