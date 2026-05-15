@@ -1,0 +1,5 @@
+Petr,muž,21
+Jana,žena,51
+Jan,muž,32
+Kamil,muž,19
+Jarmila,žena,87
